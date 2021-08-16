@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/LitvinSO/go-todo-app"
@@ -14,13 +15,16 @@ func main() {
 		log.Fatalf("error initializing configs: %s", err.Error())
 	}
 
+	fmt.Println("get config - ", viper.GetString("db.host"))
+
 	db, err := repository.NewPostgresDb(repository.Config{
-		Host:     "localhost",
-		Port:     "5436",
-		Username: "postgres",
-		Password: "Paz3585@Paz3585",
-		DBname:   "postgres",
-		SSLMode:  "disable",
+		Host:     viper.GetString("db.host"),
+		Port:     viper.GetString("db.port"),
+		Username: viper.GetString("db.username"),
+		Password: viper.GetString("db.password"),
+		DBname:   viper.GetString("db.dbname"),
+		SSLMode:  viper.GetString("db.sslmode"),
+		TimeZone: viper.GetString("db.timezone"),
 	})
 
 	if err != nil {
